@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico de Automatización — Tu Agencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ───────────────────────────────────────── */
+:root, [data-theme="light"] {
+  --color-bg:             #f5f4f0;
+  --color-surface:        #f9f8f5;
+  --color-surface-2:      #ffffff;
+  --color-surface-offset: #edeae4;
+  --color-divider:        #dbd8d2;
+  --color-border:         #d0cdc6;
+  --color-text:           #1e1c16;
+  --color-text-muted:     #6b6960;
+  --color-text-faint:     #b0aea8;
+  --color-text-inverse:   #f9f8f4;
+  --color-primary:        #1a6b5e;
+  --color-primary-hover:  #135248;
+  --color-primary-active: #0d3a33;
+  --color-primary-highlight: #d0e8e4;
+  --color-accent:         #c8873a;
+  --color-accent-hover:   #a96a25;
+  --color-success:        #2e7d32;
+  --color-success-highlight: #d4edda;
+  --radius-sm: 0.375rem;
+  --radius-md: 0.625rem;
+  --radius-lg: 0.875rem;
+  --radius-xl: 1.25rem;
+  --radius-full: 9999px;
+  --shadow-sm: 0 1px 3px oklch(0.2 0.01 80 / 0.07);
+  --shadow-md: 0 4px 14px oklch(0.2 0.01 80 / 0.09);
+  --shadow-lg: 0 12px 40px oklch(0.2 0.01 80 / 0.13);
+  --font-display: 'Instrument Serif', Georgia, serif;
+  --font-body: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  --text-xs:   clamp(0.75rem,  0.7rem  + 0.25vw, 0.875rem);
+  --text-sm:   clamp(0.875rem, 0.8rem  + 0.35vw, 1rem);
+  --text-base: clamp(1rem,     0.95rem + 0.25vw, 1.125rem);
+  --text-lg:   clamp(1.125rem, 1rem    + 0.75vw, 1.5rem);
+  --text-xl:   clamp(1.5rem,   1.2rem  + 1.25vw, 2.25rem);
+  --text-2xl:  clamp(2rem,     1.2rem  + 2.5vw,  3.5rem);
+  --space-1:0.25rem;--space-2:0.5rem;--space-3:0.75rem;--space-4:1rem;
+  --space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;
+  --space-12:3rem;--space-16:4rem;--space-20:5rem;
+  --transition: 200ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+[data-theme="dark"] {
+  --color-bg:             #131210;
+  --color-surface:        #1a1916;
+  --color-surface-2:      #201f1c;
+  --color-surface-offset: #252320;
+  --color-divider:        #2a2926;
+  --color-border:         #333230;
+  --color-text:           #e8e6e2;
+  --color-text-muted:     #8a8880;
+  --color-text-faint:     #504f4c;
+  --color-text-inverse:   #1a1916;
+  --color-primary:        #3da898;
+  --color-primary-hover:  #2d8a7c;
+  --color-primary-active: #1e6b60;
+  --color-primary-highlight: #1e3530;
+  --color-accent:         #e09a50;
+  --color-accent-hover:   #c87c30;
+  --color-success:        #5aad5e;
+  --color-success-highlight: #1e3520;
+  --shadow-sm: 0 1px 3px oklch(0 0 0 / 0.25);
+  --shadow-md: 0 4px 14px oklch(0 0 0 / 0.35);
+  --shadow-lg: 0 12px 40px oklch(0 0 0 / 0.45);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) {
+    --color-bg:#131210;--color-surface:#1a1916;--color-surface-2:#201f1c;
+    --color-surface-offset:#252320;--color-divider:#2a2926;--color-border:#333230;
+    --color-text:#e8e6e2;--color-text-muted:#8a8880;--color-text-faint:#504f4c;
+    --color-text-inverse:#1a1916;--color-primary:#3da898;--color-primary-hover:#2d8a7c;
+    --color-primary-active:#1e6b60;--color-primary-highlight:#1e3530;
+    --color-accent:#e09a50;--color-accent-hover:#c87c30;
+    --color-success:#5aad5e;--color-success-highlight:#1e3520;
+    --shadow-sm:0 1px 3px oklch(0 0 0 / 0.25);--shadow-md:0 4px 14px oklch(0 0 0 / 0.35);
+    --shadow-lg:0 12px 40px oklch(0 0 0 / 0.45);
+  }
+}
+
+/* ── BASE ─────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { -webkit-font-smoothing:antialiased; scroll-behavior:smooth; }
+body {
+  min-height: 100dvh;
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  color: var(--color-text);
+  background-color: var(--color-bg);
+  line-height: 1.6;
+}
+img, picture, svg { display:block; max-width:100%; }
+input, textarea, select, button { font: inherit; color: inherit; }
+h1,h2,h3,h4 { text-wrap: balance; line-height: 1.2; }
+p { text-wrap: pretty; max-width: 72ch; }
+button { cursor: pointer; border: none; background: none; }
+:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: var(--radius-sm); }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
+
+/* ── LAYOUT ───────────────────────────────────────── */
+.page-wrapper {
+  min-height: 100dvh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+}
+
+/* ── HEADER ───────────────────────────────────────── */
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-divider);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: var(--space-3) var(--space-6);
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--space-4);
+}
+.logo {
+  display: flex; align-items: center; gap: var(--space-3);
+  text-decoration: none; color: var(--color-text);
+}
+.logo-mark {
+  width: 36px; height: 36px; flex-shrink: 0;
+  color: var(--color-primary);
+}
+.logo-text { font-family: var(--font-display); font-size: var(--text-lg); }
+.logo-text span { color: var(--color-primary); }
+.header-right { display: flex; align-items: center; gap: var(--space-3); }
+.theme-toggle {
+  width: 40px; height: 40px; border-radius: var(--radius-full);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-text-muted);
+  transition: background var(--transition), color var(--transition);
+}
+.theme-toggle:hover { background: var(--color-surface-offset); color: var(--color-text); }
+.badge-ghl {
+  font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.04em;
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  background: var(--color-primary-highlight);
+  color: var(--color-primary);
+  border: 1px solid color-mix(in oklch, var(--color-primary) 20%, transparent);
+}
+
+/* ── HERO ─────────────────────────────────────────── */
+.hero {
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-divider);
+  padding: clamp(var(--space-10), 6vw, var(--space-20)) var(--space-6);
+  text-align: center;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 80% 50% at 50% -10%, color-mix(in oklch, var(--color-primary) 10%, transparent), transparent);
+  pointer-events: none;
+}
+.hero-inner {
+  max-width: 680px; margin-inline: auto; position: relative;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  font-size: var(--text-xs); font-weight: 600; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--color-primary);
+  margin-bottom: var(--space-4);
+}
+.hero-eyebrow::before, .hero-eyebrow::after {
+  content: ''; display: block; height: 1px; width: 24px;
+  background: var(--color-primary); opacity: 0.5;
+}
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl);
+  color: var(--color-text);
+  margin-bottom: var(--space-4);
+  line-height: 1.15;
+}
+.hero h1 em { color: var(--color-primary); font-style: italic; }
+.hero-sub {
+  font-size: var(--text-base);
+  color: var(--color-text-muted);
+  max-width: 56ch; margin-inline: auto; margin-bottom: var(--space-6);
+}
+.hero-meta {
+  display: flex; align-items: center; justify-content: center;
+  gap: var(--space-6); flex-wrap: wrap;
+  font-size: var(--text-xs); color: var(--color-text-muted);
+}
+.hero-meta-item { display: flex; align-items: center; gap: var(--space-2); }
+.hero-meta-item svg { color: var(--color-primary); flex-shrink: 0; }
+
+/* ── PROGRESS BAR ─────────────────────────────────── */
+.progress-bar-wrap {
+  max-width: 780px; margin-inline: auto;
+  padding: var(--space-8) var(--space-6) 0;
+}
+.progress-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: var(--space-3);
+}
+.progress-label {
+  font-size: var(--text-xs); font-weight: 600; color: var(--color-text-muted);
+  text-transform: uppercase; letter-spacing: 0.06em;
+}
+.progress-count { font-size: var(--text-xs); color: var(--color-text-faint); }
+.progress-track {
+  height: 5px; border-radius: var(--radius-full);
+  background: var(--color-surface-offset);
+  overflow: hidden;
+}
+.progress-fill {
+  height: 100%; border-radius: var(--radius-full);
+  background: linear-gradient(90deg, var(--color-primary), color-mix(in oklch, var(--color-primary) 70%, var(--color-accent)));
+  transition: width 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 0%;
+}
+.steps-dots {
+  display: flex; gap: var(--space-2); margin-top: var(--space-3);
+  flex-wrap: wrap;
+}
+.step-dot {
+  width: 8px; height: 8px; border-radius: var(--radius-full);
+  background: var(--color-surface-offset);
+  transition: background var(--transition), transform var(--transition);
+}
+.step-dot.active { background: var(--color-primary); transform: scale(1.3); }
+.step-dot.done { background: var(--color-primary); opacity: 0.45; }
+
+/* ── FORM CONTAINER ───────────────────────────────── */
+.form-area {
+  max-width: 780px; margin-inline: auto;
+  padding: var(--space-6) var(--space-6) var(--space-16);
+}
+
+/* ── STEP CARD ────────────────────────────────────── */
+.step-card {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  padding: clamp(var(--space-6), 4vw, var(--space-10));
+  display: none;
+  animation: fadeUp 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.step-card.active { display: block; }
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.step-tag {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  font-size: var(--text-xs); font-weight: 700; letter-spacing: 0.07em;
+  text-transform: uppercase; color: var(--color-primary);
+  margin-bottom: var(--space-3);
+}
+.step-tag-icon {
+  width: 28px; height: 28px; border-radius: var(--radius-md);
+  background: var(--color-primary-highlight);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--color-primary);
+}
+.step-card h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  color: var(--color-text);
+  margin-bottom: var(--space-2);
+}
+.step-card .step-desc {
+  font-size: var(--text-sm); color: var(--color-text-muted);
+  margin-bottom: var(--space-8); max-width: 58ch;
+}
+.step-divider {
+  height: 1px; background: var(--color-divider);
+  margin: var(--space-6) 0;
+}
+
+/* ── FORM FIELDS ──────────────────────────────────── */
+.form-grid { display: grid; gap: var(--space-5); }
+.form-grid.two-col { grid-template-columns: 1fr 1fr; }
+@media (max-width: 600px) { .form-grid.two-col { grid-template-columns: 1fr; } }
+
+.field { display: flex; flex-direction: column; gap: var(--space-2); }
+.field label {
+  font-size: var(--text-sm); font-weight: 600; color: var(--color-text);
+}
+.field label .req { color: var(--color-accent); margin-left: 2px; }
+.field .hint {
+  font-size: var(--text-xs); color: var(--color-text-muted);
+  margin-top: -var(--space-1);
+}
+
+input[type="text"], input[type="email"], input[type="tel"],
+input[type="number"], input[type="url"], textarea, select {
+  width: 100%; padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: var(--text-sm);
+  transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
+  outline: none;
+}
+input::placeholder, textarea::placeholder { color: var(--color-text-faint); }
+input:hover, textarea:hover, select:hover {
+  border-color: color-mix(in oklch, var(--color-primary) 40%, var(--color-border));
+}
+input:focus, textarea:focus, select:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in oklch, var(--color-primary) 15%, transparent);
+  background: var(--color-surface-2);
+}
+textarea { resize: vertical; min-height: 100px; line-height: 1.6; }
+select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' viewBox='0 0 24 24' stroke='%23888' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 40px; }
+
+/* ── CHECKBOX / RADIO PILLS ───────────────────────── */
+.pill-group { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-1); }
+.pill-option { position: relative; }
+.pill-option input { position: absolute; opacity: 0; width: 0; height: 0; }
+.pill-option label {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-2) var(--space-4);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-full);
+  cursor: pointer; font-size: var(--text-sm); font-weight: 500;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  transition: all var(--transition);
+  user-select: none;
+}
+.pill-option input:checked + label {
+  border-color: var(--color-primary);
+  background: var(--color-primary-highlight);
+  color: var(--color-primary);
+  font-weight: 600;
+}
+.pill-option label:hover {
+  border-color: color-mix(in oklch, var(--color-primary) 50%, var(--color-border));
+  color: var(--color-text);
+}
+.pill-option input:focus-visible + label {
+  outline: 2px solid var(--color-primary); outline-offset: 2px;
+}
+
+/* ── SCALE RATING ─────────────────────────────────── */
+.scale-group { display: flex; flex-direction: column; gap: var(--space-2); }
+.scale-label-row {
+  display: flex; justify-content: space-between;
+  font-size: var(--text-xs); color: var(--color-text-muted);
+}
+.scale-dots { display: flex; gap: var(--space-2); flex-wrap: wrap; }
+.scale-option { position: relative; }
+.scale-option input { position: absolute; opacity: 0; width: 0; height: 0; }
+.scale-option label {
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; border-radius: var(--radius-md);
+  border: 1.5px solid var(--color-border);
+  cursor: pointer; font-size: var(--text-sm); font-weight: 600;
+  color: var(--color-text-muted);
+  background: var(--color-surface);
+  transition: all var(--transition);
+}
+.scale-option input:checked + label {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-text-inverse);
+  box-shadow: var(--shadow-sm);
+}
+.scale-option label:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* ── NAVIGATION BUTTONS ───────────────────────────── */
+.step-nav {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-top: var(--space-8); gap: var(--space-4);
+}
+.btn {
+  display: inline-flex; align-items: center; gap: var(--space-2);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-md); font-size: var(--text-sm); font-weight: 600;
+  transition: all var(--transition); cursor: pointer; text-decoration: none;
+}
+.btn:active { transform: scale(0.97); }
+.btn-primary {
+  background: var(--color-primary); color: var(--color-text-inverse);
+  border: 1.5px solid var(--color-primary);
+  box-shadow: var(--shadow-sm);
+}
+.btn-primary:hover { background: var(--color-primary-hover); border-color: var(--color-primary-hover); box-shadow: var(--shadow-md); }
+.btn-ghost {
+  background: transparent; color: var(--color-text-muted);
+  border: 1.5px solid var(--color-border);
+}
+.btn-ghost:hover { background: var(--color-surface-offset); color: var(--color-text); border-color: var(--color-text-faint); }
+.btn-large { padding: var(--space-4) var(--space-10); font-size: var(--text-base); border-radius: var(--radius-lg); }
+.btn svg { width: 18px; height: 18px; }
+
+/* ── THANK YOU SCREEN ─────────────────────────────── */
+.thankyou-card {
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  padding: clamp(var(--space-10), 6vw, var(--space-16));
+  text-align: center;
+  display: none;
+  animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.thankyou-card.active { display: block; }
+.thankyou-icon {
+  width: 72px; height: 72px; border-radius: var(--radius-full);
+  background: var(--color-success-highlight);
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto var(--space-6);
+  color: var(--color-success);
+}
+.thankyou-card h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-2xl); margin-bottom: var(--space-4);
+}
+.thankyou-card p { color: var(--color-text-muted); max-width: 48ch; margin-inline: auto; }
+.thankyou-next {
+  margin-top: var(--space-8);
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-divider);
+  border-radius: var(--radius-lg);
+  text-align: left;
+}
+.thankyou-next h3 {
+  font-size: var(--text-base); font-weight: 700; margin-bottom: var(--space-3);
+  color: var(--color-text);
+}
+.next-steps-list { list-style: none; display: flex; flex-direction: column; gap: var(--space-3); }
+.next-steps-list li {
+  display: flex; align-items: flex-start; gap: var(--space-3);
+  font-size: var(--text-sm); color: var(--color-text-muted);
+}
+.step-num {
+  width: 24px; height: 24px; border-radius: var(--radius-full);
+  background: var(--color-primary); color: var(--color-text-inverse);
+  font-size: var(--text-xs); font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+
+/* ── CALLOUT BOX ──────────────────────────────────── */
+.info-callout {
+  display: flex; gap: var(--space-3); align-items: flex-start;
+  padding: var(--space-4) var(--space-5);
+  background: var(--color-primary-highlight);
+  border-radius: var(--radius-lg);
+  border: 1px solid color-mix(in oklch, var(--color-primary) 20%, transparent);
+  margin-bottom: var(--space-6);
+}
+.info-callout svg { color: var(--color-primary); flex-shrink: 0; margin-top: 2px; }
+.info-callout p { font-size: var(--text-sm); color: var(--color-primary); max-width: none; }
+
+/* ── FOOTER ───────────────────────────────────────── */
+.site-footer {
+  padding: var(--space-6);
+  text-align: center;
+  font-size: var(--text-xs); color: var(--color-text-faint);
+  border-top: 1px solid var(--color-divider);
+}
+
+/* ── RESPONSIVE ───────────────────────────────────── */
+@media (max-width: 480px) {
+  .site-header { padding: var(--space-3) var(--space-4); }
+  .form-area { padding: var(--space-4) var(--space-4) var(--space-12); }
+  .progress-bar-wrap { padding: var(--space-6) var(--space-4) 0; }
+  .scale-option label { width: 38px; height: 38px; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <a class="logo" href="#">
+    <svg class="logo-mark" viewBox="0 0 36 36" fill="none" aria-label="Logo">
+      <rect x="3" y="3" width="30" height="30" rx="9" fill="currentColor" opacity="0.1"/>
+      <path d="M10 18 C10 13.58 13.58 10 18 10 C22.42 10 26 13.58 26 18" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="18" cy="24" r="4" fill="currentColor"/>
+      <path d="M14 24 L10 28 M22 24 L26 28" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.6"/>
+    </svg>
+    <span class="logo-text">Auto<span>Flow</span></span>
+  </a>
+  <div class="header-right">
+    <span class="badge-ghl">Powered by Go High Level</span>
+    <button class="theme-toggle" data-theme-toggle aria-label="Cambiar tema">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Diagnóstico de Automatización</div>
+    <h1>¿Cuánto tiempo estás dejando <em>escapar</em> por falta de automatización?</h1>
+    <p class="hero-sub">Este formulario nos ayuda a entender tu situación actual y diseñar un sistema personalizado que trabaje por ti las 24 horas del día.</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        5–7 minutos
+      </div>
+      <div class="hero-meta-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        100% confidencial
+      </div>
+      <div class="hero-meta-item">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Sin compromiso
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROGRESS -->
+<div class="progress-bar-wrap">
+  <div class="progress-header">
+    <span class="progress-label" id="progress-label">Sección 1 de 7</span>
+    <span class="progress-count" id="progress-pct">0% completado</span>
+  </div>
+  <div class="progress-track"><div class="progress-fill" id="progress-fill"></div></div>
+  <div class="steps-dots" id="steps-dots"></div>
+</div>
+
+<!-- FORM -->
+<main class="form-area">
+  <form id="diagnostico-form" novalidate>
+
+    <!-- STEP 1: Datos personales -->
+    <div class="step-card active" data-step="1">
+      <div class="step-tag">
+        <div class="step-tag-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        Paso 1 · Tu Perfil
+      </div>
+      <h2>Cuéntanos un poco sobre ti</h2>
+      <p class="step-desc">Comencemos con lo básico para personalizar tu diagnóstico.</p>
+
+      <div class="form-grid two-col">
+        <div class="field">
+          <label for="nombre">Nombre completo <span class="req">*</span></label>
+          <input type="text" id="nombre" name="nombre" placeholder="María García" required>
+        </div>
+        <div class="field">
+          <label for="whatsapp">WhatsApp (con código de país) <span class="req">*</span></label>
+          <input type="tel" id="whatsapp" name="whatsapp" placeholder="+56 9 1234 5678" required>
+        </div>
+        <div class="field">
+          <label for="email">Correo electrónico</label>
+          <input type="email" id="email" name="email" placeholder="maria@correo.com">
+        </div>
+        <div class="field">
+          <label for="empresa">Empresa / Red de Network Marketing <span class="req">*</span></label>
+          <input type="text" id="empresa" name="empresa" placeholder="Ej. Herbalife, Amway, Forever..." required>
+        </div>
+      </div>
+      <div class="step-divider"></div>
+      <div class="form-grid">
+        <div class="field">
+          <label>¿Cuánto tiempo llevas en el network marketing? <span class="req">*</span></label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="radio" name="experiencia" id="exp1" value="Menos de 6 meses"><label for="exp1">Menos de 6 meses</label></div>
+            <div class="pill-option"><input type="radio" name="experiencia" id="exp2" value="6–12 meses"><label for="exp2">6–12 meses</label></div>
+            <div class="pill-option"><input type="radio" name="experiencia" id="exp3" value="1–3 años"><label for="exp3">1–3 años</label></div>
+            <div class="pill-option"><input type="radio" name="experiencia" id="exp4" value="Más de 3 años"><label for="exp4">Más de 3 años</label></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>¿Cuál es tu rol principal? <span class="req">*</span></label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="radio" name="rol" id="rol1" value="Distribuidora independiente"><label for="rol1">Distribuidora independiente</label></div>
+            <div class="pill-option"><input type="radio" name="rol" id="rol2" value="Líder de equipo"><label for="rol2">Líder de equipo</label></div>
+            <div class="pill-option"><input type="radio" name="rol" id="rol3" value="Directora / Gerente"><label for="rol3">Directora / Gerente</label></div>
+            <div class="pill-option"><input type="radio" name="rol" id="rol4" value="Otro"><label for="rol4">Otro</label></div>
+          </div>
+        </div>
+      </div>
+      <div class="step-nav">
+        <span></span>
+        <button type="button" class="btn btn-primary" onclick="nextStep()">
+          Siguiente
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 2: Captación de leads -->
+    <div class="step-card" data-step="2">
+      <div class="step-tag">
+        <div class="step-tag-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        Paso 2 · Captación de Prospectos
+      </div>
+      <h2>¿Cómo estás consiguiendo prospectos hoy?</h2>
+      <p class="step-desc">Queremos entender tus fuentes de leads actuales para potenciarlas al máximo.</p>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>¿Por dónde llegan tus prospectos actualmente? <span class="req">*</span> <span class="hint">(puedes marcar varias)</span></label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="checkbox" name="fuentes" id="f1" value="Instagram / Stories"><label for="f1">📸 Instagram / Stories</label></div>
+            <div class="pill-option"><input type="checkbox" name="fuentes" id="f2" value="Facebook"><label for="f2">Facebook</label></div>
+            <div class="pill-option"><input type="checkbox" name="fuentes" id="f3" value="TikTok"><label for="f3">TikTok</label></div>
+            <div class="pill-option"><input type="checkbox" name="fuentes" id="f4" value="Referidos / boca a boca"><label for="f4">👥 Referidos</label></div>
+            <div class="pill-option"><input type="checkbox" name="fuentes" id="f5" value="WhatsApp grupos"><label for="f5">WhatsApp grupos</label></div>
+            <div class="pill-option"><input type="checkbox" name="fuentes" id="f6" value="Anuncios pagados"><label for="f6">💰 Anuncios pagados</label></div>
+            <div class="pill-option"><input type="checkbox" name="fuentes" id="f7" value="Eventos / presencial"><label for="f7">Eventos</label></div>
+            <div class="pill-option"><input type="checkbox" name="fuentes" id="f8" value="No tengo una fuente definida"><label for="f8">No tengo fuente definida</label></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>¿Aproximadamente cuántos prospectos nuevos recibes por mes?</label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="radio" name="volumen_leads" id="vl1" value="1–10"><label for="vl1">1–10</label></div>
+            <div class="pill-option"><input type="radio" name="volumen_leads" id="vl2" value="11–30"><label for="vl2">11–30</label></div>
+            <div class="pill-option"><input type="radio" name="volumen_leads" id="vl3" value="31–80"><label for="vl3">31–80</label></div>
+            <div class="pill-option"><input type="radio" name="volumen_leads" id="vl4" value="Más de 80"><label for="vl4">Más de 80</label></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>¿Tienes alguna página web, landing page o formulario para captar leads?</label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="radio" name="landing" id="land1" value="Sí, tengo página propia"><label for="land1">Sí, tengo página propia</label></div>
+            <div class="pill-option"><input type="radio" name="landing" id="land2" value="Sí, uso el link de la empresa"><label for="land2">Sí, uso el de la empresa</label></div>
+            <div class="pill-option"><input type="radio" name="landing" id="land3" value="No tengo"><label for="land3">No tengo</label></div>
+          </div>
+        </div>
+      </div>
+      <div class="step-nav">
+        <button type="button" class="btn btn-ghost" onclick="prevStep()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Atrás
+        </button>
+        <button type="button" class="btn btn-primary" onclick="nextStep()">
+          Siguiente
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 3: CRM y seguimiento -->
+    <div class="step-card" data-step="3">
+      <div class="step-tag">
+        <div class="step-tag-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        Paso 3 · Seguimiento y CRM
+      </div>
+      <h2>¿Cómo llevas el seguimiento de tus prospectos?</h2>
+      <p class="step-desc">El seguimiento es donde se gana o pierde el 80% del negocio. Cuéntanos cómo lo haces hoy.</p>
+
+      <div class="info-callout">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <p>No hay respuestas correctas o incorrectas. Mientras más honesta seas, mejor podremos ayudarte.</p>
+      </div>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>¿Usas algún CRM o sistema para registrar a tus prospectos? <span class="req">*</span></label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="radio" name="crm" id="crm1" value="Sí, uso un CRM profesional" onclick="toggleCrmField(true)"><label for="crm1">✅ Sí, uso un CRM</label></div>
+            <div class="pill-option"><input type="radio" name="crm" id="crm2" value="Excel / Google Sheets" onclick="toggleCrmField(false)"><label for="crm2">📊 Excel / Google Sheets</label></div>
+            <div class="pill-option"><input type="radio" name="crm" id="crm3" value="Notas del teléfono / papel" onclick="toggleCrmField(false)"><label for="crm3">📝 Notas del teléfono</label></div>
+            <div class="pill-option"><input type="radio" name="crm" id="crm4" value="No llevo registro" onclick="toggleCrmField(false)"><label for="crm4">❌ No llevo registro</label></div>
+          </div>
+        </div>
+        <div class="field" id="crm-cual" style="display:none;">
+          <label for="crm_nombre">¿Cuál CRM usas?</label>
+          <input type="text" id="crm_nombre" name="crm_nombre" placeholder="Ej. HubSpot, Zoho, Pipedrive...">
+        </div>
+        <div class="field">
+          <label>¿Con qué frecuencia haces seguimiento a tus prospectos?</label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="radio" name="freq_seg" id="fs1" value="Todos los días"><label for="fs1">Todos los días</label></div>
+            <div class="pill-option"><input type="radio" name="freq_seg" id="fs2" value="2-3 veces por semana"><label for="fs2">2–3 veces/semana</label></div>
+            <div class="pill-option"><input type="radio" name="freq_seg" id="fs3" value="Solo cuando me acuerdo"><label for="fs3">Solo cuando me acuerdo</label></div>
+            <div class="pill-option"><input type="radio" name="freq_seg" id="fs4" value="Casi nunca"><label for="fs4">Casi nunca</label></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>¿Cuántos prospectos calculas que se han enfriado por falta de seguimiento?</label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="radio" name="perdidos" id="p1" value="Pocos, tengo buen control"><label for="p1">Pocos, tengo control</label></div>
+            <div class="pill-option"><input type="radio" name="perdidos" id="p2" value="Algunos"><label for="p2">Algunos</label></div>
+            <div class="pill-option"><input type="radio" name="perdidos" id="p3" value="Muchos, es mi mayor problema"><label for="p3">Muchos — es mi problema</label></div>
+            <div class="pill-option"><input type="radio" name="perdidos" id="p4" value="No sé, nunca lo he medido"><label for="p4">No lo he medido</label></div>
+          </div>
+        </div>
+      </div>
+      <div class="step-nav">
+        <button type="button" class="btn btn-ghost" onclick="prevStep()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Atrás
+        </button>
+        <button type="button" class="btn btn-primary" onclick="nextStep()">
+          Siguiente
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 4: WhatsApp -->
+    <div class="step-card" data-step="4">
+      <div class="step-tag">
+        <div class="step-tag-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        Paso 4 · WhatsApp
+      </div>
+      <h2>Tu operación en WhatsApp</h2>
+      <p class="step-desc">WhatsApp es el canal #1 en Latinoamérica. Queremos entender cómo lo estás usando y qué tanto tiempo te consume.</p>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>¿Cuánto tiempo al día dedicas a responder WhatsApp de prospectos/clientes?</label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="radio" name="tiempo_wa" id="tw1" value="Menos de 1 hora"><label for="tw1">Menos de 1 hora</label></div>
+            <div class="pill-option"><input type="radio" name="tiempo_wa" id="tw2" value="1–2 horas"><label for="tw2">1–2 horas</label></div>
+            <div class="pill-option"><input type="radio" name="tiempo_wa" id="tw3" value="2–4 horas"><label for="tw3">2–4 horas</label></div>
+            <div class="pill-option"><input type="radio" name="tiempo_wa" id="tw4" value="Más de 4 horas (todo el día)"><label for="tw4">Todo el día</label></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>¿Usas alguna herramienta para gestionar tus mensajes de WhatsApp?</label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="checkbox" name="herr_wa" id="hw1" value="WhatsApp Business"><label for="hw1">WhatsApp Business</label></div>
+            <div class="pill-option"><input type="checkbox" name="herr_wa" id="hw2" value="ManyChat"><label for="hw2">ManyChat</label></div>
+            <div class="pill-option"><input type="checkbox" name="herr_wa" id="hw3" value="Respond.io"><label for="hw3">Respond.io</label></div>
+            <div class="pill-option"><input type="checkbox" name="herr_wa" id="hw4" value="Go High Level"><label for="hw4">Go High Level</label></div>
+            <div class="pill-option"><input type="checkbox" name="herr_wa" id="hw5" value="Solo WhatsApp normal"><label for="hw5">Solo WhatsApp normal</label></div>
+            <div class="pill-option"><input type="checkbox" name="herr_wa" id="hw6" value="Ninguna"><label for="hw6">Ninguna</label></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>¿Envías mensajes masivos o broadcasts a tu lista de contactos?</label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="radio" name="broadcast" id="bc1" value="Sí, regularmente"><label for="bc1">Sí, regularmente</label></div>
+            <div class="pill-option"><input type="radio" name="broadcast" id="bc2" value="A veces"><label for="bc2">A veces</label></div>
+            <div class="pill-option"><input type="radio" name="broadcast" id="bc3" value="No, respondo uno por uno"><label for="bc3">No, uno por uno</label></div>
+            <div class="pill-option"><input type="radio" name="broadcast" id="bc4" value="Me gustaría pero no sé cómo"><label for="bc4">Me gustaría pero no sé cómo</label></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>¿Tienes respuestas automáticas configuradas en WhatsApp?</label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="radio" name="auto_wa" id="aw1" value="Sí, tengo bots o automáticos"><label for="aw1">Sí, tengo automatizados</label></div>
+            <div class="pill-option"><input type="radio" name="auto_wa" id="aw2" value="Solo el mensaje de ausencia básico"><label for="aw2">Solo ausencia básica</label></div>
+            <div class="pill-option"><input type="radio" name="auto_wa" id="aw3" value="No tengo nada automatizado"><label for="aw3">No tengo nada</label></div>
+          </div>
+        </div>
+      </div>
+      <div class="step-nav">
+        <button type="button" class="btn btn-ghost" onclick="prevStep()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Atrás
+        </button>
+        <button type="button" class="btn btn-primary" onclick="nextStep()">
+          Siguiente
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 5: Agendamiento y citas -->
+    <div class="step-card" data-step="5">
+      <div class="step-tag">
+        <div class="step-tag-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        Paso 5 · Agendamiento
+      </div>
+      <h2>¿Cómo agendas tus citas y llamadas?</h2>
+      <p class="step-desc">El agendamiento manual es uno de los mayores ladrones de tiempo en el negocio.</p>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>¿Cómo agendan las personas una cita o llamada contigo? <span class="req">*</span></label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="radio" name="como_agenda" id="ca1" value="Me escriben por WhatsApp y lo coordinamos"><label for="ca1">WhatsApp (coordinación manual)</label></div>
+            <div class="pill-option"><input type="radio" name="como_agenda" id="ca2" value="Uso Calendly u otra herramienta"><label for="ca2">Calendly / herramienta</label></div>
+            <div class="pill-option"><input type="radio" name="como_agenda" id="ca3" value="Go High Level calendar"><label for="ca3">Go High Level</label></div>
+            <div class="pill-option"><input type="radio" name="como_agenda" id="ca4" value="No agendo, hablo cuando puedo"><label for="ca4">No agendo formalmente</label></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>¿Cuántas citas/llamadas de prospección tienes por semana aproximadamente?</label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="radio" name="num_citas" id="nc1" value="1–3"><label for="nc1">1–3</label></div>
+            <div class="pill-option"><input type="radio" name="num_citas" id="nc2" value="4–8"><label for="nc2">4–8</label></div>
+            <div class="pill-option"><input type="radio" name="num_citas" id="nc3" value="9–15"><label for="nc3">9–15</label></div>
+            <div class="pill-option"><input type="radio" name="num_citas" id="nc4" value="Más de 15"><label for="nc4">Más de 15</label></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>¿Cuántos prospectos "ghostean" (no llegan a la cita) aproximadamente?</label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="radio" name="ghost" id="gh1" value="Pocos (menos del 10%)"><label for="gh1">Pocos (menos del 10%)</label></div>
+            <div class="pill-option"><input type="radio" name="ghost" id="gh2" value="Algunos (10-30%)"><label for="gh2">Algunos (10–30%)</label></div>
+            <div class="pill-option"><input type="radio" name="ghost" id="gh3" value="Muchos (más del 30%)"><label for="gh3">Muchos (más del 30%)</label></div>
+            <div class="pill-option"><input type="radio" name="ghost" id="gh4" value="La mayoría no llega"><label for="gh4">La mayoría no llega</label></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>¿Envías recordatorios automáticos antes de las citas?</label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="radio" name="recordatorio" id="rec1" value="Sí, de forma automática"><label for="rec1">Sí, automáticos</label></div>
+            <div class="pill-option"><input type="radio" name="recordatorio" id="rec2" value="Lo hago manualmente"><label for="rec2">Lo hago manualmente</label></div>
+            <div class="pill-option"><input type="radio" name="recordatorio" id="rec3" value="No envío recordatorios"><label for="rec3">No envío recordatorios</label></div>
+          </div>
+        </div>
+      </div>
+      <div class="step-nav">
+        <button type="button" class="btn btn-ghost" onclick="prevStep()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Atrás
+        </button>
+        <button type="button" class="btn btn-primary" onclick="nextStep()">
+          Siguiente
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 6: Equipo y escala -->
+    <div class="step-card" data-step="6">
+      <div class="step-tag">
+        <div class="step-tag-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        Paso 6 · Tu Negocio y Equipo
+      </div>
+      <h2>Hablemos de tu negocio y equipo</h2>
+      <p class="step-desc">Esto nos permite entender qué escala de solución necesitas.</p>
+
+      <div class="form-grid two-col">
+        <div class="field">
+          <label>¿Tienes equipo bajo tu línea / downline?</label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="radio" name="tiene_equipo" id="te1" value="No, trabajo sola"><label for="te1">No, trabajo sola</label></div>
+            <div class="pill-option"><input type="radio" name="tiene_equipo" id="te2" value="Sí, 1–5 personas"><label for="te2">Sí, 1–5</label></div>
+            <div class="pill-option"><input type="radio" name="tiene_equipo" id="te3" value="Sí, 6–20 personas"><label for="te3">Sí, 6–20</label></div>
+            <div class="pill-option"><input type="radio" name="tiene_equipo" id="te4" value="Sí, más de 20"><label for="te4">Más de 20</label></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>¿Manejas también clientes para venta de productos?</label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="radio" name="clientes_productos" id="cp1" value="Sí, muchos clientes"><label for="cp1">Sí, muchos</label></div>
+            <div class="pill-option"><input type="radio" name="clientes_productos" id="cp2" value="Sí, algunos"><label for="cp2">Sí, algunos</label></div>
+            <div class="pill-option"><input type="radio" name="clientes_productos" id="cp3" value="Solo prospectos para el negocio"><label for="cp3">Solo prospectos</label></div>
+          </div>
+        </div>
+      </div>
+      <div class="step-divider"></div>
+      <div class="form-grid">
+        <div class="field">
+          <label>¿Qué plataformas de redes sociales usas para tu negocio? <span class="hint">(selecciona todas las que apliquen)</span></label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="checkbox" name="rrss" id="rs1" value="Instagram"><label for="rs1">📸 Instagram</label></div>
+            <div class="pill-option"><input type="checkbox" name="rrss" id="rs2" value="Facebook"><label for="rs2">Facebook</label></div>
+            <div class="pill-option"><input type="checkbox" name="rrss" id="rs3" value="TikTok"><label for="rs3">TikTok</label></div>
+            <div class="pill-option"><input type="checkbox" name="rrss" id="rs4" value="YouTube"><label for="rs4">YouTube</label></div>
+            <div class="pill-option"><input type="checkbox" name="rrss" id="rs5" value="LinkedIn"><label for="rs5">LinkedIn</label></div>
+            <div class="pill-option"><input type="checkbox" name="rrss" id="rs6" value="Telegram"><label for="rs6">Telegram</label></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>¿Cuántas horas a la semana dedicas a tareas administrativas / manuales de tu negocio?</label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="radio" name="horas_admin" id="ha1" value="Menos de 5 horas"><label for="ha1">Menos de 5 h</label></div>
+            <div class="pill-option"><input type="radio" name="horas_admin" id="ha2" value="5–10 horas"><label for="ha2">5–10 h</label></div>
+            <div class="pill-option"><input type="radio" name="horas_admin" id="ha3" value="10–20 horas"><label for="ha3">10–20 h</label></div>
+            <div class="pill-option"><input type="radio" name="horas_admin" id="ha4" value="Más de 20 horas"><label for="ha4">Más de 20 h</label></div>
+          </div>
+        </div>
+      </div>
+      <div class="step-nav">
+        <button type="button" class="btn btn-ghost" onclick="prevStep()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Atrás
+        </button>
+        <button type="button" class="btn btn-primary" onclick="nextStep()">
+          Siguiente
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- STEP 7: Dolores, objetivos y cierre -->
+    <div class="step-card" data-step="7">
+      <div class="step-tag">
+        <div class="step-tag-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        Paso 7 · Tus Metas
+      </div>
+      <h2>Lo más importante: tus dolores y objetivos</h2>
+      <p class="step-desc">Esta sección es la clave para diseñar una solución que realmente te cambie el negocio.</p>
+
+      <div class="form-grid">
+        <div class="field">
+          <label>¿Cuáles son tus 3 mayores frustraciones o problemas en tu negocio HOY? <span class="req">*</span></label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="checkbox" name="dolores" id="d1" value="No tengo tiempo — hago todo manual"><label for="d1">⏰ No tengo tiempo, todo es manual</label></div>
+            <div class="pill-option"><input type="checkbox" name="dolores" id="d2" value="Los prospectos se enfrían antes de comprar"><label for="d2">🥶 Prospectos se enfrían</label></div>
+            <div class="pill-option"><input type="checkbox" name="dolores" id="d3" value="No tengo sistema de seguimiento"><label for="d3">🗂️ Sin sistema de seguimiento</label></div>
+            <div class="pill-option"><input type="checkbox" name="dolores" id="d4" value="Pierdo prospectos porque no respondo rápido"><label for="d4">💬 No respondo rápido</label></div>
+            <div class="pill-option"><input type="checkbox" name="dolores" id="d5" value="No sé cuántos prospectos tengo ni en qué etapa"><label for="d5">❓ Sin visibilidad de mi pipeline</label></div>
+            <div class="pill-option"><input type="checkbox" name="dolores" id="d6" value="Difícil conseguir nuevos prospectos constantemente"><label for="d6">📉 Difícil conseguir prospectos</label></div>
+            <div class="pill-option"><input type="checkbox" name="dolores" id="d7" value="No sé cómo escalar mi equipo"><label for="d7">📈 No sé cómo escalar</label></div>
+            <div class="pill-option"><input type="checkbox" name="dolores" id="d8" value="Mucho ghosting en las citas"><label for="d8">👻 Mucho ghosting en citas</label></div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="dolor_desc">En tus propias palabras: ¿Qué es lo que más te quita el sueño en tu negocio?</label>
+          <textarea id="dolor_desc" name="dolor_desc" placeholder="Puedes ser tan específica como quieras..."></textarea>
+        </div>
+        <div class="field">
+          <label>Si tuvieras un sistema automatizado, ¿qué resultado esperarías ver en 3 meses?</label>
+          <div class="pill-group">
+            <div class="pill-option"><input type="checkbox" name="objetivos" id="o1" value="Duplicar mis ventas"><label for="o1">💰 Duplicar mis ventas</label></div>
+            <div class="pill-option"><input type="checkbox" name="objetivos" id="o2" value="Ahorrar más de 10 horas semanales"><label for="o2">⏰ Ahorrar +10 h/semana</label></div>
+            <div class="pill-option"><input type="checkbox" name="objetivos" id="o3" value="Tener un sistema de prospectos en piloto automático"><label for="o3">🤖 Piloto automático de prospectos</label></div>
+            <div class="pill-option"><input type="checkbox" name="objetivos" id="o4" value="Crecer mi equipo más rápido"><label for="o4">👥 Crecer equipo</label></div>
+            <div class="pill-option"><input type="checkbox" name="objetivos" id="o5" value="Mejorar mi tasa de cierres"><label for="o5">📊 Mejorar cierres</label></div>
+            <div class="pill-option"><input type="checkbox" name="objetivos" id="o6" value="Dejar de perder clientes por falta de seguimiento"><label for="o6">🔒 No perder más clientes</label></div>
+          </div>
+        </div>
+        <div class="step-divider"></div>
+        <div class="field">
+          <label>¿Qué tan abierta estás a invertir en herramientas o sistemas para hacer crecer tu negocio?</label>
+          <div class="scale-group">
+            <div class="scale-label-row"><span>No estoy lista para invertir</span><span>Lista para invertir YA</span></div>
+            <div class="scale-dots">
+              <div class="scale-option"><input type="radio" name="apertura_inversion" id="inv1" value="1"><label for="inv1">1</label></div>
+              <div class="scale-option"><input type="radio" name="apertura_inversion" id="inv2" value="2"><label for="inv2">2</label></div>
+              <div class="scale-option"><input type="radio" name="apertura_inversion" id="inv3" value="3"><label for="inv3">3</label></div>
+              <div class="scale-option"><input type="radio" name="apertura_inversion" id="inv4" value="4"><label for="inv4">4</label></div>
+              <div class="scale-option"><input type="radio" name="apertura_inversion" id="inv5" value="5"><label for="inv5">5</label></div>
+              <div class="scale-option"><input type="radio" name="apertura_inversion" id="inv6" value="6"><label for="inv6">6</label></div>
+              <div class="scale-option"><input type="radio" name="apertura_inversion" id="inv7" value="7"><label for="inv7">7</label></div>
+              <div class="scale-option"><input type="radio" name="apertura_inversion" id="inv8" value="8"><label for="inv8">8</label></div>
+              <div class="scale-option"><input type="radio" name="apertura_inversion" id="inv9" value="9"><label for="inv9">9</label></div>
+              <div class="scale-option"><input type="radio" name="apertura_inversion" id="inv10" value="10"><label for="inv10">10</label></div>
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <label for="disponibilidad">¿Cuándo estarías disponible para nuestra llamada de diagnóstico?</label>
+          <textarea id="disponibilidad" name="disponibilidad" rows="3" placeholder="Ej. Lunes y miércoles después de las 7pm, fines de semana por la mañana..."></textarea>
+        </div>
+        <div class="field">
+          <label for="extra">¿Hay algo más que quieras que sepamos antes de nuestra llamada?</label>
+          <textarea id="extra" name="extra" rows="3" placeholder="Cualquier contexto adicional que nos ayude a preparar la mejor propuesta para ti..."></textarea>
+        </div>
+      </div>
+      <div class="step-nav">
+        <button type="button" class="btn btn-ghost" onclick="prevStep()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          Atrás
+        </button>
+        <button type="submit" class="btn btn-primary btn-large" id="submit-btn">
+          Enviar mi diagnóstico
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- THANK YOU -->
+    <div class="thankyou-card" id="thankyou">
+      <div class="thankyou-icon">
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2>¡Gracias, <span id="nombre-display">!tu nombre</span>! 🎉</h2>
+      <p>Hemos recibido tu diagnóstico. Revisaremos cada respuesta con detalle para preparar una propuesta personalizada antes de nuestra llamada.</p>
+      <div class="thankyou-next">
+        <h3>¿Qué sigue?</h3>
+        <ul class="next-steps-list">
+          <li><div class="step-num">1</div><span>Revisaremos tus respuestas y mapearemos los puntos de automatización con mayor impacto para tu negocio.</span></li>
+          <li><div class="step-num">2</div><span>Te contactaremos por WhatsApp para confirmar la fecha y hora de tu llamada de diagnóstico.</span></li>
+          <li><div class="step-num">3</div><span>En la llamada, te presentaremos un sistema en Go High Level diseñado específicamente para tu modelo de negocio.</span></li>
+        </ul>
+      </div>
+    </div>
+
+  </form>
+</main>
+
+<footer class="site-footer">
+  <p>Tu información es 100% confidencial y nunca será compartida con terceros. &nbsp;·&nbsp; AutoFlow Agency</p>
+</footer>
+
+<script>
+  // Theme toggle
+  (function(){
+    const t = document.querySelector('[data-theme-toggle]');
+    const r = document.documentElement;
+    let d = matchMedia('(prefers-color-scheme:dark)').matches ? 'dark' : 'light';
+    r.setAttribute('data-theme', d);
+    const sunSVG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>';
+    const moonSVG = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
+    if (t) {
+      t.innerHTML = d === 'dark' ? sunSVG : moonSVG;
+      t.addEventListener('click', () => {
+        d = d === 'dark' ? 'light' : 'dark';
+        r.setAttribute('data-theme', d);
+        t.innerHTML = d === 'dark' ? sunSVG : moonSVG;
+      });
+    }
+  })();
+
+  // Step management
+  const TOTAL_STEPS = 7;
+  let currentStep = 1;
+
+  function renderDots() {
+    const c = document.getElementById('steps-dots');
+    c.innerHTML = '';
+    for (let i = 1; i <= TOTAL_STEPS; i++) {
+      const d = document.createElement('div');
+      d.className = 'step-dot' + (i === currentStep ? ' active' : (i < currentStep ? ' done' : ''));
+      c.appendChild(d);
+    }
+  }
+
+  function updateProgress() {
+    const pct = Math.round(((currentStep - 1) / TOTAL_STEPS) * 100);
+    document.getElementById('progress-fill').style.width = pct + '%';
+    document.getElementById('progress-label').textContent = `Sección ${currentStep} de ${TOTAL_STEPS}`;
+    document.getElementById('progress-pct').textContent = pct + '% completado';
+    renderDots();
+  }
+
+  function showStep(n) {
+    document.querySelectorAll('.step-card').forEach(c => c.classList.remove('active'));
+    const target = document.querySelector(`[data-step="${n}"]`);
+    if (target) target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    updateProgress();
+  }
+
+  function nextStep() {
+    if (currentStep < TOTAL_STEPS) {
+      currentStep++;
+      showStep(currentStep);
+    }
+  }
+
+  function prevStep() {
+    if (currentStep > 1) {
+      currentStep--;
+      showStep(currentStep);
+    }
+  }
+
+  function toggleCrmField(show) {
+    document.getElementById('crm-cual').style.display = show ? 'flex' : 'none';
+  }
+
+  // ════════════════════════════════════════════════════════════════════
+  // ⚙️  CONFIGURACIÓN — Activa uno o varios destinos para tus respuestas
+  // ════════════════════════════════════════════════════════════════════
+  //
+  // ── OPCIÓN A · Formspree (te llega email con cada respuesta) ──────
+  //   1. Crea cuenta gratis en https://formspree.io
+  //   2. New Form → copia la URL (ej. https://formspree.io/f/abcd1234)
+  //   3. Reemplaza TU_ID_AQUI con tu código real
+  const FORMSPREE_URL = 'https://formspree.io/f/TU_ID_AQUI';
+
+  // ── OPCIÓN B · Google Sheets (todas las respuestas en una planilla) ─
+  //   1. Crea una Google Sheet nueva
+  //   2. Extensions → Apps Script → pega el código del archivo AppScript
+  //      que viene junto a este HTML
+  //   3. Deploy → Web App → Execute as: Me → Anyone → Deploy → copia la URL
+  //   4. Pega esa URL aquí:
+  const GOOGLE_SHEETS_URL = 'https://script.google.com/macros/s/AKfycbynSi13dkpkxYvyswENSCjGTYjOUI-xiodq0_iU1FIxFKoez2WDI9ZIfvdoiOTHQOCsgQ/exec';
+
+  // ── OPCIÓN C · Go High Level Webhook (cuando lo actives) ──────────
+  //   1. GHL → Automation → New Workflow → Trigger: Inbound Webhook
+  //   2. Copia la URL y pégala aquí:
+  const GHL_WEBHOOK_URL = '';
+  // ════════════════════════════════════════════════════════════════════
+
+  function recolectarRespuestas() {
+    const form = document.getElementById('diagnostico-form');
+    const data = {};
+    form.querySelectorAll('input[type=text],input[type=email],input[type=tel],input[type=number],textarea').forEach(el => {
+      if (el.name) data[el.name] = el.value;
+    });
+    form.querySelectorAll('select').forEach(el => { if (el.name) data[el.name] = el.value; });
+    const radios = {};
+    form.querySelectorAll('input[type=radio]:checked').forEach(el => { radios[el.name] = el.value; });
+    Object.assign(data, radios);
+    const checks = {};
+    form.querySelectorAll('input[type=checkbox]').forEach(el => {
+      if (!checks[el.name]) checks[el.name] = [];
+      if (el.checked) checks[el.name].push(el.value);
+    });
+    Object.keys(checks).forEach(k => { data[k] = checks[k].join(', ') || 'Ninguno seleccionado'; });
+    return data;
+  }
+
+  function mostrarGracias(nombre) {
+    document.querySelectorAll('.step-card').forEach(c => c.classList.remove('active'));
+    document.getElementById('thankyou').classList.add('active');
+    document.getElementById('nombre-display').textContent = nombre.split(' ')[0] + '!';
+    document.getElementById('progress-fill').style.width = '100%';
+    document.getElementById('progress-label').textContent = '\u00a1Completado!';
+    document.getElementById('progress-pct').textContent = '100% completado';
+    document.querySelectorAll('.step-dot').forEach(d => { d.classList.remove('active'); d.classList.add('done'); });
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  document.getElementById('diagnostico-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.innerHTML = 'Enviando\u2026';
+
+    const data = recolectarRespuestas();
+    const nombre = data['nombre'] || 'amiga';
+    const promesas = [];
+
+    if (FORMSPREE_URL && !FORMSPREE_URL.includes('TU_ID_AQUI')) {
+      promesas.push(fetch(FORMSPREE_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify(data)
+      }));
+    }
+
+    if (GOOGLE_SHEETS_URL) {
+      promesas.push(fetch(GOOGLE_SHEETS_URL, {
+        method: 'POST',
+        mode:"no-cors",
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify(data)
+      }));
+    }
+
+    if (GHL_WEBHOOK_URL) {
+      promesas.push(fetch(GHL_WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      }));
+    }
+
+    try { if (promesas.length > 0) await Promise.all(promesas); }
+    catch (err) { console.warn('Error al enviar:', err); }
+
+    mostrarGracias(nombre);
+  });
+
+  // Init
+  updateProgress();
+</script>
+</body>
+</html>
